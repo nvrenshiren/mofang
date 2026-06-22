@@ -272,9 +272,10 @@ export class NxNCubeRenderer implements PuzzleRenderer<NxNState, NxNMove> {
 }
 
 function axisVectorFor(face: NxNFaceId): THREE.Vector3 {
-  if (face === 'R' || face === 'L' || face === 'x') return new THREE.Vector3(1, 0, 0)
-  if (face === 'U' || face === 'D' || face === 'y') return new THREE.Vector3(0, 1, 0)
-  return new THREE.Vector3(0, 0, 1)
+  // M 跟 L 同 X 轴, E 跟 D 同 Y 轴, S 跟 F 同 Z 轴
+  if (face === 'R' || face === 'L' || face === 'M' || face === 'x') return new THREE.Vector3(1, 0, 0)
+  if (face === 'U' || face === 'D' || face === 'E' || face === 'y') return new THREE.Vector3(0, 1, 0)
+  return new THREE.Vector3(0, 0, 1) // F, B, S, z
 }
 
 /**
