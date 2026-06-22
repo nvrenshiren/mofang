@@ -271,7 +271,7 @@ export class NxNCubeRenderer implements PuzzleRenderer<NxNState, NxNMove> {
   }
 }
 
-function axisVectorFor(face: NxNFaceId): THREE.Vector3 {
+export function axisVectorFor(face: NxNFaceId): THREE.Vector3 {
   // M 跟 L 同 X 轴, E 跟 D 同 Y 轴, S 跟 F 同 Z 轴
   if (face === 'R' || face === 'L' || face === 'M' || face === 'x') return new THREE.Vector3(1, 0, 0)
   if (face === 'U' || face === 'D' || face === 'E' || face === 'y') return new THREE.Vector3(0, 1, 0)
@@ -283,7 +283,7 @@ function axisVectorFor(face: NxNFaceId): THREE.Vector3 {
  *                 L/D/B = +90° 绕正轴
  * x/y/z = 跟 R/U/F 同
  */
-function signedAngleFor(move: NxNMove): number {
+export function signedAngleFor(move: NxNMove): number {
   const _90 = Math.PI / 2
   const dir = move.amount === 3 ? -1 : 1
   const sign = (() => {
