@@ -1,17 +1,18 @@
-import type { ActionBus } from '../input/ActionBus'
+import type { ActionBus, AppMode } from '../input/ActionBus'
 import { load, update } from '../store/persistence'
 import { sfx } from '../audio/Sfx'
 
 /**
- * 设置面板 (浮层) —— 音效开关、展开十字开关、键位提示
+ * 设置面板 (浮层) —— 音效开关、反向视角开关
  *
- * 触发方式: 右上齿轮按钮 (由 TopBar 触发 dispatch 'open-settings' —— 简化起见
- * 这里直接挂一个独立的浮层按钮)
+ * 挑战模式下: 反向视角开关被强制禁用 (模拟实战, 不允许 peek 背面)
  */
 
 export interface SettingsPanel {
   readonly root: HTMLElement
   toggle(): void
+  /** 切换 mode 时同步禁用/启用反向视角开关 */
+  setMode(mode: AppMode): void
 }
 
 export function createSettingsPanel(
@@ -33,16 +34,23 @@ export function createSettingsPanel(
       <span>🔊 音效</span>
       <input data-role="sound" type="checkbox" ${!persisted.soundMuted ? 'checked' : ''} />
     </label>
-    <label class="flex items-center justify-between gap-2 py-1">
-      <span>👁 反向视角 PiP</span>
+    <label data-role="unfold-label" class="flex items-center justify-between gap-2 py-1">
+      <span><span data-role="unfold-text">👁 反向视角 PiP</span></span>
       <input data-role="unfold" type="checkbox" checked />
     </label>
+    <div data-role="challenge-hint" class="hidden text-[10px] text-[color:var(--color-cube-d)] -mt-1 italic">
+      挑战模式下不允许偷瞄背面
+    </div>
     <div class="text-[10px] text-[color:var(--color-ink-3)] mt-2 leading-relaxed border-t border-[color:var(--color-stage-4)] pt-2">
       挑战模式下数据持久化:<br/>
       • 最近 100 局成绩自动保留<br/>
       • Best / Ao5 / Ao12 实时计算
     </div>
   `
+
+  const unfoldCb = root.querySelector<HTMLInputElement>('[data-role="unfold"]')!
+  const unfoldLabel = root.querySelector<HTMLElement>('[data-role="unfold-label"]')!
+  const challengeHint = root.querySelector<HTMLElement>('[data-role="challenge-hint"]')!
 
   root.querySelector<HTMLButtonElement>('[data-role="close"]')!.addEventListener('click', () => toggle())
 
@@ -52,7 +60,13 @@ export function createSettingsPanel(
     update({ soundMuted: muted })
   })
 
-  root.querySelector<HTMLInputElement>('[data-role="unfold"]')!.addEventListener('change', (e) => {
+  unfoldCb.addEventListener('change', (e) => {
+    // 挑战模式下禁用 — 即使用户绕过 (比如 devtools) 也兜底拒绝
+    if (unfoldCb.disabled) {
+      e.preventDefault()
+      unfoldCb.checked = false
+      return
+    }
     opts.onShowMiniUnfold((e.target as HTMLInputElement).checked)
   })
 
@@ -66,6 +80,23 @@ export function createSettingsPanel(
     }
   }
 
-  void bus // 暂未用,留作扩展
-  return { root, toggle }
+  function setMode(mode: AppMode): void {
+    const isChallenge = mode === 'challenge'
+    unfoldCb.disabled = isChallenge
+    if (isChallenge) {
+      unfoldCb.checked = false
+      unfoldLabel.style.opacity = '0.5'
+      unfoldLabel.style.cursor = 'not-allowed'
+      challengeHint.classList.remove('hidden')
+      // 同时立即关掉反向视角 (防止从训练模式开着然后切到挑战)
+      opts.onShowMiniUnfold(false)
+    } else {
+      unfoldLabel.style.opacity = '1'
+      unfoldLabel.style.cursor = ''
+      challengeHint.classList.add('hidden')
+    }
+  }
+
+  void bus
+  return { root, toggle, setMode }
 }

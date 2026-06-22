@@ -18,6 +18,10 @@
 
 </div>
 
+<p align="center">
+  <img src="./screenshot.jpg" alt="Cubelab 初次打开界面 — 3x3 训练模式" width="900">
+</p>
+
 ---
 
 ## ✨ 核心特性

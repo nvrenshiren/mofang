@@ -145,6 +145,8 @@ const store = new AppStore(stage, bus, initialPuzzleId, {
     challenge.setActive(mode === 'challenge')
     // 切回非挑战模式: 谜题下拉应解锁 (挑战已被 setActive(false) 重置为 idle)
     if (mode !== 'challenge') topBar.setPuzzleSelectorEnabled(true)
+    // 设置面板里的反向视角开关随模式启用/禁用
+    settings.setMode(mode)
   },
   onPuzzleChanged: (p: Puzzle<unknown, unknown>) => {
     update({ puzzleId: p.meta.id })

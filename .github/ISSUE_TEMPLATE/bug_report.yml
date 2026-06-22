@@ -1,0 +1,80 @@
+name: 🐛 Bug 反馈
+description: 报告功能异常 / 视觉错误 / 计算错误
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢报 bug!请尽量提供复现步骤 + 截图,谢谢 🙏
+
+  - type: input
+    id: puzzle
+    attributes:
+      label: 涉及的谜题
+      description: 比如 3x3 / 4x4 / 全部
+      placeholder: 3x3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: 哪个模式
+      options:
+        - 训练
+        - 自由
+        - 挑战
+        - 与模式无关
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 清楚到从打开页面开始的每一步
+      placeholder: |
+        1. 切到 3x3
+        2. 按键盘 m
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      placeholder: M 中层应绕 X 轴顺时针 90° 旋转
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      placeholder: cubies 沿 Z 轴乱飞一下然后突然就位
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 截图 / 录屏
+      description: 拖拽图片或视频到这里 (强烈建议)
+
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      description: 浏览器版本 + OS
+      placeholder: Chrome 127 / macOS 14.5
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: 控制台错误
+      description: F12 → Console, 复制任何红色错误
+      render: shell

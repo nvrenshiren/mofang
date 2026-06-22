@@ -18,6 +18,10 @@ Supports 2×2 through 7×7 NxN cubes · WCA-standard scrambles · keymaps tailor
 
 </div>
 
+<p align="center">
+  <img src="./screenshot.jpg" alt="Cubelab — initial view in 3x3 training mode" width="900">
+</p>
+
 ---
 
 ## ✨ Features
