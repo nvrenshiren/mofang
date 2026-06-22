@@ -35,7 +35,7 @@ export function createSettingsPanel(
       <input data-role="sound" type="checkbox" ${!persisted.soundMuted ? 'checked' : ''} />
     </label>
     <label data-role="unfold-label" class="flex items-center justify-between gap-2 py-1">
-      <span><span data-role="unfold-text">👁 反向视角 PiP</span></span>
+      <span>👁 反向视角 PiP</span>
       <input data-role="unfold" type="checkbox" checked />
     </label>
     <div data-role="challenge-hint" class="hidden text-[10px] text-[color:var(--color-cube-d)] -mt-1 italic">
@@ -62,8 +62,8 @@ export function createSettingsPanel(
 
   unfoldCb.addEventListener('change', (e) => {
     // 挑战模式下禁用 — 即使用户绕过 (比如 devtools) 也兜底拒绝
+    // (change 事件不可取消, 直接复位 checked 状态即可)
     if (unfoldCb.disabled) {
-      e.preventDefault()
       unfoldCb.checked = false
       return
     }
@@ -91,6 +91,8 @@ export function createSettingsPanel(
       // 同时立即关掉反向视角 (防止从训练模式开着然后切到挑战)
       opts.onShowMiniUnfold(false)
     } else {
+      // 切回非挑战模式: main.ts onModeChanged 会 force-show PiP, 这里跟随回勾, 保持 checkbox 与实际可见性一致
+      unfoldCb.checked = true
       unfoldLabel.style.opacity = '1'
       unfoldLabel.style.cursor = ''
       challengeHint.classList.add('hidden')
