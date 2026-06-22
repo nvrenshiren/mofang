@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Cubelab 设计令牌 (Tailwind 4 @theme)
+   主题: 暗室专业仪器风 —— 深色背景 + 毛玻璃面板 + 青色高光
+   ------------------------------------------------------------------ */
+@theme {
+  /* WCA 标准配色 (魔方六色,作为视觉锚和按钮分区) */
+  --color-cube-u: #f5f5f0;      /* Up   - 白 */
+  --color-cube-d: #f5c518;      /* Down - 黄 */
+  --color-cube-f: #1a9f3a;      /* Front- 绿 */
+  --color-cube-b: #1464d6;      /* Back - 蓝 */
+  --color-cube-l: #f08000;      /* Left - 橙 */
+  --color-cube-r: #c41e3a;      /* Right- 红 */
+
+  /* 暗室色阶 */
+  --color-stage-0: #06080f;     /* 最深背景 */
+  --color-stage-1: #0a0e1a;     /* 主背景 */
+  --color-stage-2: #11172a;     /* 面板背景 */
+  --color-stage-3: #1a2138;     /* 浮起面板 */
+  --color-stage-4: #232d4a;     /* 边框/分隔 */
+
+  /* 文字 */
+  --color-ink-1: #f1f5fb;       /* 主文字 */
+  --color-ink-2: #aab4cf;       /* 次文字 */
+  --color-ink-3: #5f6a89;       /* 弱化文字、键位标注 */
+
+  /* 强调色:青色聚光灯 */
+  --color-accent: #4cd3e0;
+  --color-accent-soft: #4cd3e033;
+  --color-accent-glow: #4cd3e066;
+
+  /* 字体 */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, Consolas, monospace;
+
+  /* 圆角 */
+  --radius-panel: 14px;
+  --radius-button: 8px;
+
+  /* 缓动 (用于 JS tween 也用 CSS transition) */
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ------------------------------------------------------------------
+   全局基础
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink-1);
+  background: var(--color-stage-1);
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  /* 暗室渐变 + 极淡的暗角 */
+  background:
+    radial-gradient(ellipse at 50% 40%, var(--color-stage-2) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, #050810 0%, var(--color-stage-1) 50%);
+  background-attachment: fixed;
+}
+
+#app {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 56px 1fr;
+}
+
+/* 选区 */
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink-1);
+}
+
+/* 滚动条 (暗色细滚) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-stage-4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-3);
+}
+
+/* ------------------------------------------------------------------
+   工具类:毛玻璃面板
+   ------------------------------------------------------------------ */
+.glass {
+  background: color-mix(in oklab, var(--color-stage-2) 75%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-ink-1) 8%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-radius: var(--radius-panel);
+}
+.glass:hover {
+  border-color: color-mix(in oklab, var(--color-accent) 30%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   动画工具
+   ------------------------------------------------------------------ */
+@keyframes pulse-accent {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-accent-soft); }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}
+
+@keyframes flash-key {
+  0%   { background: var(--color-accent); color: var(--color-stage-0); }
+  100% { background: transparent; color: inherit; }
+}
+
+.flash {
+  animation: flash-key 240ms var(--ease-snap);
+}
+
+/* 挑战模式:隐藏 WCA 按钮上的键位提示 */
+.hide-keyhints .group-hover\:text-\[color\:var\(--color-accent\)\],
+.hide-keyhints span[class*="absolute"][class*="text-\[9px\]"] {
+  display: none;
+}
+.hide-keyhints .wca-btn span.absolute {
+  display: none;
+}

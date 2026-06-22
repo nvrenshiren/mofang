@@ -1,0 +1,82 @@
+import type { Vec3 } from './Vec3'
+
+/**
+ * 3x3 整数矩阵,行优先存储:
+ *   [ m00 m01 m02
+ *     m10 m11 m12
+ *     m20 m21 m22 ]
+ * 用 9 元组表示,值语义,不可变。元素永远 ∈ {-1, 0, 1}。
+ * 24 种合法朝向对应所有"无翻转的整数正交矩阵 (det=+1)"。
+ */
+export type Mat3 = readonly [
+  number, number, number,
+  number, number, number,
+  number, number, number,
+]
+
+export const IDENTITY: Mat3 = [1, 0, 0, 0, 1, 0, 0, 0, 1]
+
+/** 矩阵乘法 a · b */
+export function mul(a: Mat3, b: Mat3): Mat3 {
+  const [
+    a00, a01, a02,
+    a10, a11, a12,
+    a20, a21, a22,
+  ] = a
+  const [
+    b00, b01, b02,
+    b10, b11, b12,
+    b20, b21, b22,
+  ] = b
+  return [
+    a00 * b00 + a01 * b10 + a02 * b20,
+    a00 * b01 + a01 * b11 + a02 * b21,
+    a00 * b02 + a01 * b12 + a02 * b22,
+    a10 * b00 + a11 * b10 + a12 * b20,
+    a10 * b01 + a11 * b11 + a12 * b21,
+    a10 * b02 + a11 * b12 + a12 * b22,
+    a20 * b00 + a21 * b10 + a22 * b20,
+    a20 * b01 + a21 * b11 + a22 * b21,
+    a20 * b02 + a21 * b12 + a22 * b22,
+  ]
+}
+
+/** 矩阵作用于向量 m · v */
+export function apply(m: Mat3, v: Vec3): Vec3 {
+  const [m00, m01, m02, m10, m11, m12, m20, m21, m22] = m
+  const [x, y, z] = v
+  return [
+    m00 * x + m01 * y + m02 * z,
+    m10 * x + m11 * y + m12 * z,
+    m20 * x + m21 * y + m22 * z,
+  ]
+}
+
+export function eq(a: Mat3, b: Mat3): boolean {
+  for (let i = 0; i < 9; i++) if (a[i] !== b[i]) return false
+  return true
+}
+
+/**
+ * 基础旋转矩阵 —— 名称按"正方向"定义,然后用 inverse() 取反转
+ * Rx90: 绕 X 轴 +90° (sin=1,cos=0):
+ *   [[1,0,0],[0,0,-1],[0,1,0]]
+ *   作用: +Y → +Z, +Z → -Y
+ */
+export const Rx90: Mat3 = [1, 0, 0, 0, 0, -1, 0, 1, 0]
+export const Ry90: Mat3 = [0, 0, 1, 0, 1, 0, -1, 0, 0]
+export const Rz90: Mat3 = [0, -1, 0, 1, 0, 0, 0, 0, 1]
+
+/** 正交矩阵的逆 = 转置 */
+export function inverse(m: Mat3): Mat3 {
+  return [
+    m[0], m[3], m[6],
+    m[1], m[4], m[7],
+    m[2], m[5], m[8],
+  ]
+}
+
+/** 平方 (180° 转) */
+export function square(m: Mat3): Mat3 {
+  return mul(m, m)
+}

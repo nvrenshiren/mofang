@@ -1,0 +1,31 @@
+{
+  "name": "cubelab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cubelab — 浏览器中的 WCA 记谱法练习场",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/three": "^0.170.0",
+    "playwright": "^1.60.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.0",
+    "vite": "^7.0.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
