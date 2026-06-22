@@ -21,6 +21,8 @@ export interface TopBarHandle {
   setChallengeLayout(challenge: boolean): void
   setStartButtonLabel(label: string): void
   setCurrentPuzzle(id: PuzzleId): void
+  /** 锁定/解锁 puzzle 下拉 (挑战进行中应锁) */
+  setPuzzleSelectorEnabled(enabled: boolean): void
   /** 切换 puzzle 时刷新快捷键 tooltip 内容 (从 puzzle.keymap() 生成) */
   setPuzzleForKeyHints(puzzle: Puzzle<unknown, unknown>): void
   onWcaToggle(fn: () => void): void
@@ -226,11 +228,17 @@ export function createTopBar(bus: ActionBus): TopBarHandle {
     bus.dispatch({ type: 'puzzle-change', puzzleId: puzzleSel.value as PuzzleId })
   })
   function setCurrentPuzzle(id: PuzzleId): void { puzzleSel.value = id }
+  function setPuzzleSelectorEnabled(enabled: boolean): void {
+    puzzleSel.disabled = !enabled
+    puzzleSel.style.opacity = enabled ? '1' : '0.45'
+    puzzleSel.style.cursor = enabled ? '' : 'not-allowed'
+    puzzleSel.title = enabled ? '切换谜题' : '挑战进行中,请先点 "重新开始" 中止后再切换'
+  }
 
   return {
     root, setMode, setUndoEnabled, setRedoEnabled,
     setWcaButtonVisible, setChallengeLayout, setStartButtonLabel,
-    setCurrentPuzzle, setPuzzleForKeyHints,
+    setCurrentPuzzle, setPuzzleSelectorEnabled, setPuzzleForKeyHints,
     onWcaToggle, onStartClick, onSettingsToggle,
   }
 }

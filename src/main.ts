@@ -143,6 +143,8 @@ const store = new AppStore(stage, bus, initialPuzzleId, {
     timesPanel.setVisible(mode === 'challenge')
     if (mode !== 'challenge') scramblePanel.root.style.display = ''
     challenge.setActive(mode === 'challenge')
+    // 切回非挑战模式: 谜题下拉应解锁 (挑战已被 setActive(false) 重置为 idle)
+    if (mode !== 'challenge') topBar.setPuzzleSelectorEnabled(true)
   },
   onPuzzleChanged: (p: Puzzle<unknown, unknown>) => {
     update({ puzzleId: p.meta.id })
@@ -177,6 +179,8 @@ challenge.onStateChange((s) => {
   if (store.mode === 'challenge') {
     const showScramble = s === 'idle' || s === 'finished'
     scramblePanel.root.style.display = showScramble && store.currentScramble.length > 0 ? '' : 'none'
+    // 挑战进行中 (非 idle) 锁住谜题下拉, 避免切换谜题污染计时器状态
+    topBar.setPuzzleSelectorEnabled(s === 'idle')
   }
 })
 challenge.onFinish((f) => {
