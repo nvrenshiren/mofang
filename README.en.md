@@ -6,6 +6,7 @@
 
 Supports 2×2 through 7×7 NxN cubes · WCA-standard scrambles · keymaps tailored for CFOP / Roux / ZZ · Challenge mode with 15s inspection + Ao5/Ao12
 
+[![CI](https://github.com/nvrenshiren/mofang/actions/workflows/ci.yml/badge.svg)](https://github.com/nvrenshiren/mofang/actions/workflows/ci.yml)
 [![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Three.js](https://img.shields.io/badge/Three.js-r170-000000?logo=three.js&logoColor=white)](https://threejs.org)
