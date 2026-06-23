@@ -240,20 +240,22 @@ npm run test:e2e  # 端到端 (playwright)
 | NxN 键位分级 | 10 | 2x2 / 偶 / 奇 三档 |
 | Puzzle 合同测试 | 66 | 11 项 × 6 谜 |
 | 历史栈通用泛型 | 4 | 撤销/重做 |
-| 公式解析 + 打乱生成器 (legacy) | 23 | 保留覆盖 |
-| 历史 cube 测试 (legacy) | 53 | 3x3 专项 |
-| **单元小计** | **269** | |
+| Renderer 动画轴 / 角度回归 | 11 | M/E/S 等中层不会再 fallback Z 轴 |
+| Keyboard `handleKeyboardEvent` 纯函数 | 25 | 转动键 + 系统键 + 挑战屏蔽 + 守卫 |
+| ChallengeController 状态机 | 22 | 5 态转移 + 15s 倒计时 + 防双击 |
+| AppStore 编排 | 20 | 全部 7 个 Action 分支 + 切换 puzzle |
+| **单元小计** | **271** | |
 | E2E: 6 谜 × {渲染, 打乱, 重置} | 6 | |
 | E2E: 模式切换 mesh 无残留 | 1 | |
 | E2E: 键盘 R + Ctrl+Z 撤销 | 1 | |
-| **E2E 小计** | **12** | 1.7 分钟 |
+| **E2E 小计** | **8** | 1.7 分钟 |
 
 ## 📜 设计哲学
 
 - **Domain-Render-UI 严格分层**:domain 层完全 pure(零 DOM、零 Three.js),所有谜题逻辑可在 Node 跑测试
 - **Puzzle<State, Move> 接口**:谜题、渲染器、UI 全部泛型化,新增谜题不动核心
 - **WCA 规则原生支持**:打乱、记谱、键位都按 WCA 官方约定 + 实战习惯分级
-- **零运行时框架**:Vanilla TS + Tailwind,无 React/Vue/Svelte 框架税,bundle 134 KB gzip
+- **零运行时框架**:Vanilla TS + Tailwind,无 React/Vue/Svelte 框架税,bundle 135 KB gzip
 
 ## 🛠 技术栈
 

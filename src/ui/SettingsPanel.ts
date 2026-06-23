@@ -1,4 +1,5 @@
-import type { ActionBus, AppMode } from '../input/ActionBus'
+import type { ActionBus } from '../input/ActionBus'
+import type { AppMode } from '../types'
 import { load, update } from '../store/persistence'
 import { sfx } from '../audio/Sfx'
 

@@ -1,4 +1,5 @@
-import type { ActionBus, AppMode } from '../input/ActionBus'
+import type { ActionBus } from '../input/ActionBus'
+import type { AppMode } from '../types'
 import { PUZZLES } from '../domain/puzzles/registry'
 import type { Puzzle, PuzzleId } from '../domain/puzzles/Puzzle'
 

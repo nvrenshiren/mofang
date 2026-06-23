@@ -1,12 +1,11 @@
 import type { PuzzleId } from '../domain/puzzles/Puzzle'
+import type { AppMode } from '../types'
 
 /**
  * 中心动作总线
  * 注意: Action.move 的类型是 unknown, 因为不同 puzzle 有不同 Move 类型.
  * AppStore 知道当前 puzzle, 在路由时把 move 传给对应 puzzle.apply / renderer.enqueueMove.
  */
-
-export type AppMode = 'training' | 'free' | 'challenge'
 
 export type Action =
   | { type: 'move'; move: unknown; source: 'keyboard' | 'button' | 'formula' | 'scramble' }

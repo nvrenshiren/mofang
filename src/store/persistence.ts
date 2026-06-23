@@ -1,4 +1,4 @@
-import type { AppMode } from '../input/ActionBus'
+import type { AppMode } from '../types'
 
 /**
  * 应用级偏好持久化 (模式 / 当前 puzzle / 音效)

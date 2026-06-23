@@ -240,20 +240,22 @@ npm run test:e2e  # playwright end-to-end tests
 | NxN keymap stratification | 10 | 2×2 / even / odd tiers |
 | Puzzle interface contract | 66 | 11 invariants × 6 puzzles |
 | Generic history stack | 4 | Undo/redo |
-| Legacy notation + scramble | 23 | Retained coverage |
-| Legacy cube tests | 53 | 3×3 specifics |
-| **Unit subtotal** | **269** | |
+| Renderer animation axis / angle regression | 11 | M/E/S no longer fall back to Z axis |
+| Keyboard `handleKeyboardEvent` pure function | 25 | Turn keys + system keys + challenge silencing + guards |
+| ChallengeController state machine | 22 | 5-state transitions + 15s countdown + double-click guard |
+| AppStore orchestration | 20 | All 7 Action branches + puzzle switching |
+| **Unit subtotal** | **271** | |
 | E2E: 6 puzzles × { render, scramble, reset } | 6 | |
 | E2E: puzzle switching leaves no orphan meshes | 1 | |
 | E2E: keyboard `R` + `Ctrl+Z` undo | 1 | |
-| **E2E subtotal** | **12** | 1.7 minutes wall time |
+| **E2E subtotal** | **8** | 1.7 minutes wall time |
 
 ## 📜 Design Philosophy
 
 - **Strict domain/render/UI separation** — domain layer is 100% pure (no DOM, no Three.js); all puzzle logic runs in Node for tests
 - **`Puzzle<State, Move>` interface** — puzzles, renderers, and UI components are generic; new puzzles don't touch the core
 - **WCA rules first-class** — scrambles, notation, and keymaps follow official WCA conventions and real-world solving habits, graded per puzzle size
-- **Zero runtime framework** — Vanilla TS + Tailwind, no React/Vue/Svelte tax; bundle is ~134 KB gzipped
+- **Zero runtime framework** — Vanilla TS + Tailwind, no React/Vue/Svelte tax; bundle is ~135 KB gzipped
 
 ## 🛠 Tech Stack
 
