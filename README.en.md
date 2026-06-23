@@ -37,7 +37,7 @@ Supports 2×2 through 7×7 NxN cubes · WCA-standard scrambles · keymaps tailor
   - **Challenge** — competition simulation: 15s inspection → timer → solve detection → local Best / Ao5 / Ao12 history
 - 💾 **Persistence**: challenge times (last 100 solves), preferences, current puzzle — all stored in `localStorage`
 - 🔊 **Audio feedback**: Web Audio API synthesis for layer clicks, completion chimes, inspection ticks
-- 🧪 **Test-first architecture**: 269 unit tests + 12 end-to-end tests; domain layer has zero DOM / Three.js dependencies
+- 🧪 **Test-first architecture**: 271 unit tests + 8 end-to-end tests; domain layer has zero DOM / Three.js dependencies
 
 ## 🚀 Quick Start
 
@@ -52,7 +52,7 @@ npm run dev            # → http://localhost:5173
 npm run build          # tsc type-check + vite production bundle
 
 # Tests
-npm test               # 269 vitest unit tests
+npm test               # 271 vitest unit tests
 npm run test:watch     # watch mode
 npm run test:e2e       # 12 playwright e2e tests
 ```

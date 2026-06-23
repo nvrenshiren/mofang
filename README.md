@@ -37,7 +37,7 @@
   - **挑战**:模拟实战(15s 观察 → 自动计时 → 求解检测 → 本地最佳/Ao5/Ao12)
 - 💾 **持久化**:挑战成绩、最近 100 局、用户偏好全部存 `localStorage`
 - 🔊 **音效系统**:Web Audio API 合成的咔哒声 / 完成铃声 / 倒计时 tick
-- 🧪 **可测试架构**:269 单元测试 + 12 端到端测试,domain 层零 DOM/Three 依赖
+- 🧪 **可测试架构**:271 单元测试 + 8 端到端测试,domain 层零 DOM/Three 依赖
 
 ## 🚀 快速开始
 
@@ -52,7 +52,7 @@ npm run dev            # → http://localhost:5173
 npm run build          # tsc 类型检查 + vite 生产打包
 
 # 测试
-npm test               # 269 个 vitest 单元测试
+npm test               # 271 个 vitest 单元测试
 npm run test:watch     # 监听模式
 npm run test:e2e       # 12 个 playwright 端到端测试
 ```
