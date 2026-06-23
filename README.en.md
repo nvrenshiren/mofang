@@ -228,9 +228,21 @@ Any new puzzle only needs to implement these two interfaces and register itself 
 ## 🧪 Testing
 
 ```bash
-npm test          # vitest unit tests
-npm run test:e2e  # playwright end-to-end tests
+npm test              # vitest unit tests
+npm run test:e2e      # playwright e2e tests
+npm run test:coverage # coverage report (text + HTML, written to coverage/)
 ```
+
+**Current coverage** (271 unit tests):
+
+| Metric | % | Notes |
+|---|---|---|
+| Lines | 51 | UI/render largely not unit-tested, covered indirectly by e2e |
+| Branches | 90 | Covered code paths are thoroughly branch-tested |
+| Functions | 84 | |
+| Statements | 51 | Same story as lines |
+
+`domain/` mostly 90%+; `input/` `store/` `challenge/` 80%+; `ui/` and `render/` mostly 0% (see review #10, planned).
 
 | Category | Count | Coverage |
 |---|---|---|

@@ -228,9 +228,21 @@ interface PuzzleRenderer<State, Move> {
 ## 🧪 测试
 
 ```bash
-npm test          # 单元 (vitest)
-npm run test:e2e  # 端到端 (playwright)
+npm test              # 单元 (vitest)
+npm run test:e2e      # 端到端 (playwright)
+npm run test:coverage # 覆盖率报告 (text + HTML, 输出到 coverage/)
 ```
+
+**当前覆盖率** (271 单元测试):
+
+| 维度 | 比例 | 备注 |
+|---|---|---|
+| Lines | 51% | UI/render 大量未单测,靠 e2e 间接覆盖 |
+| Branches | 90% | 已覆盖的代码分支几乎齐全 |
+| Functions | 84% | |
+| Statements | 51% | 同 lines |
+
+`domain/` 层基本 90%+,`input/` `store/` `challenge/` 80%+,`ui/` `render/` 大多 0%(评审 #10,待补)。
 
 | 类别 | 数量 | 覆盖 |
 |---|---|---|
