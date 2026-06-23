@@ -11,7 +11,7 @@ Supports 2×2 through 7×7 NxN cubes · WCA-standard scrambles · keymaps tailor
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Three.js](https://img.shields.io/badge/Three.js-r170-000000?logo=three.js&logoColor=white)](https://threejs.org)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Tests](https://img.shields.io/badge/tests-269%20passing-success)](#testing)
+[![Tests](https://img.shields.io/badge/tests-204%20passing-success)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
 **English** · [中文](./README.md)

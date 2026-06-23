@@ -12,7 +12,7 @@
  *           整体旋转 x/y/z 实现为 depth=N 的等效 (selector 总是 true)
  */
 
-import { apply, inverse, IDENTITY, mul, Rx90, Ry90, Rz90, square, type Mat3 } from '../../math/Mat3'
+import { apply, inverse, mul, Rx90, Ry90, Rz90, square, type Mat3 } from '../../math/Mat3'
 import { v3key, type Vec3 } from '../../math/Vec3'
 import { solvedStickersOfPosition, type Cubie, type FaceColorId, type NxNState } from './NxNState'
 
@@ -205,6 +205,3 @@ export function stickerColor(c: Cubie, N: number, worldDir: Vec3): FaceColorId |
   ]
   return solvedStickersById(N, c.id).get(v3key(localDir)) ?? null
 }
-
-// 占位防 noUnusedLocals
-void IDENTITY

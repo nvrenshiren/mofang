@@ -41,28 +41,46 @@ export function createWcaPanel(bus: ActionBus, initialPuzzle: Puzzle<unknown, un
     for (const g of puzzle.buttonGroups()) {
       const groupEl = document.createElement('div')
       groupEl.className = 'flex items-center gap-2'
-      const dot = g.color
-        ? `<span class="w-3 h-3 rounded-sm shrink-0" style="background:${g.color}"></span>`
-        : `<span class="w-3 h-3 rounded-sm shrink-0 bg-[color:var(--color-stage-4)]"></span>`
-      groupEl.innerHTML = `
-        ${dot}
-        <span class="text-[11px] text-[color:var(--color-ink-3)] w-16 shrink-0 truncate" title="${g.label}">${g.label}</span>
-        <div class="grid grid-cols-3 gap-1.5 flex-1">
-          ${g.buttons
-            .map((b) => `
-              <button
-                data-face="${b.face}"
-                data-amount="${b.amount}"
-                data-label="${b.label}"
-                class="wca-btn group relative px-2 py-1.5 rounded-md bg-[color:var(--color-stage-1)] hover:bg-[color:var(--color-stage-3)] border border-transparent hover:border-[color:var(--color-accent-soft)] text-xs font-mono font-semibold transition"
-                title="${b.label}"
-              >
-                <span>${b.label}</span>
-                ${b.key ? `<span class="absolute right-1 bottom-0.5 text-[9px] text-[color:var(--color-ink-3)] group-hover:text-[color:var(--color-accent)] font-sans">${b.key}</span>` : ''}
-              </button>
-            `).join('')}
-        </div>
-      `
+
+      // 色块
+      const dot = document.createElement('span')
+      dot.className = g.color
+        ? 'w-3 h-3 rounded-sm shrink-0'
+        : 'w-3 h-3 rounded-sm shrink-0 bg-[color:var(--color-stage-4)]'
+      if (g.color) dot.style.background = g.color
+      groupEl.appendChild(dot)
+
+      // 组标签
+      const label = document.createElement('span')
+      label.className = 'text-[11px] text-[color:var(--color-ink-3)] w-16 shrink-0 truncate'
+      label.title = g.label
+      label.textContent = g.label
+      groupEl.appendChild(label)
+
+      // 按钮网格
+      const grid = document.createElement('div')
+      grid.className = 'grid grid-cols-3 gap-1.5 flex-1'
+      for (const b of g.buttons) {
+        const btn = document.createElement('button')
+        btn.className = 'wca-btn group relative px-2 py-1.5 rounded-md bg-[color:var(--color-stage-1)] hover:bg-[color:var(--color-stage-3)] border border-transparent hover:border-[color:var(--color-accent-soft)] text-xs font-mono font-semibold transition'
+        btn.dataset['face'] = b.face
+        btn.dataset['amount'] = String(b.amount)
+        btn.dataset['label'] = b.label
+        btn.title = b.label
+
+        const lbl = document.createElement('span')
+        lbl.textContent = b.label
+        btn.appendChild(lbl)
+
+        if (b.key) {
+          const key = document.createElement('span')
+          key.className = 'absolute right-1 bottom-0.5 text-[9px] text-[color:var(--color-ink-3)] group-hover:text-[color:var(--color-accent)] font-sans'
+          key.textContent = b.key
+          btn.appendChild(key)
+        }
+        grid.appendChild(btn)
+      }
+      groupEl.appendChild(grid)
       groupsEl.appendChild(groupEl)
     }
   }
@@ -85,8 +103,14 @@ export function createWcaPanel(bus: ActionBus, initialPuzzle: Puzzle<unknown, un
 
   bus.subscribe((a) => {
     if (a.type !== 'flash-button') return
-    const btn = root.querySelector<HTMLButtonElement>(`button[data-label="${cssEsc(a.faceLabel)}"]`)
-    if (btn) flashButton(btn)
+    // 遍历按钮匹配 dataset.label, 避免 CSS 选择器注入 + 不依赖任何转义
+    const buttons = root.querySelectorAll<HTMLButtonElement>('button.wca-btn')
+    for (const btn of buttons) {
+      if (btn.dataset['label'] === a.faceLabel) {
+        flashButton(btn)
+        break
+      }
+    }
   })
 
   function setVisible(v: boolean): void {
@@ -111,8 +135,4 @@ function flashButton(btn: HTMLButtonElement): void {
   btn.classList.remove('flash')
   void btn.offsetWidth
   btn.classList.add('flash')
-}
-
-function cssEsc(s: string): string {
-  return s.replace(/"/g, '\\"').replace(/'/g, "\\'")
 }

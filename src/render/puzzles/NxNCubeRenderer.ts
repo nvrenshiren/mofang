@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
-import { applyMove, layerSelector, rotationOf, type NxNFaceId, type NxNMove } from '../../domain/puzzles/nxn/NxNMoves'
+import { applyMove, layerSelector, type NxNFaceId, type NxNMove } from '../../domain/puzzles/nxn/NxNMoves'
 import { solvedState, solvedStickersOfPosition, type NxNState } from '../../domain/puzzles/nxn/NxNState'
 import type { PuzzleRenderer } from '../../domain/puzzles/Puzzle'
 import type { Stage } from '../Stage'
@@ -302,6 +302,3 @@ export function signedAngleFor(move: NxNMove): number {
   const base = sign * _90 * dir
   return move.amount === 2 ? base * 2 : base
 }
-
-/** Helper: rotationOf 仅引用以消除 import (实际未直接使用) */
-void rotationOf

@@ -55,13 +55,18 @@ export class AppStore {
     this.puzzle = entry.createPuzzle()
     this.renderer = entry.createRenderer()
     this.state = this.puzzle.solved()
-    this.renderer.mount(stage, this.state)
+    this.attachRenderer()
+
+    bus.subscribe((a) => this.handle(a))
+  }
+
+  /** mount renderer + 绑 onMoveApplied 回调 — 在 constructor / switchPuzzle 共用 */
+  private attachRenderer(): void {
+    this.renderer.mount(this.stage, this.state)
     this.renderer.onMoveApplied = (m) => {
       this.state = this.puzzle.apply(this.state, m)
       this.cb.onAnyMoveApplied?.(m)
     }
-
-    bus.subscribe((a) => this.handle(a))
   }
 
   switchPuzzle(id: PuzzleId): void {
@@ -76,11 +81,7 @@ export class AppStore {
     this.puzzle = entry.createPuzzle()
     this.renderer = entry.createRenderer()
     this.state = this.puzzle.solved()
-    this.renderer.mount(this.stage, this.state)
-    this.renderer.onMoveApplied = (m) => {
-      this.state = this.puzzle.apply(this.state, m)
-      this.cb.onAnyMoveApplied?.(m)
-    }
+    this.attachRenderer()
 
     // 清空跨谜题不复用的状态
     this.history = emptyHistory()
